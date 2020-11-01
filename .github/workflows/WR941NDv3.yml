@@ -2,7 +2,7 @@ name: OpenWRT Tp Link WR941NDv3
 on:
   push:
     branches:
-      - Openwrt18
+      - x86
   watch:
     types: started
 
@@ -17,7 +17,7 @@ env:
   UPLOAD_RELEASE: true
 
 jobs:
-  build:
+  x86 Build:
     runs-on: ubuntu-latest
     container: sirherobrine23/openwrtbuild-ci:latest
     if: github.event.repository.owner.id == github.event.sender.id
