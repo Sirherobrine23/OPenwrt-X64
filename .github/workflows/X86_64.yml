@@ -8,7 +8,7 @@ on:
 
 env:
   URL: https://git.openwrt.org/openwrt/openwrt.git
-  BRANCH: master
+  BRANCH: openwrt-19.07
   FEEDS_FILE: feeds.conf.default
   CONFIG: x64.config
   P1: diy-part1.sh
