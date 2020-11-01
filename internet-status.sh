@@ -1,7 +1,8 @@
 #!/bin/sh
-LED="/sys/class/leds/tp-link:green:qss/brightness"
-URL="http://apt.sh23.org/"
-update_led="2s"
+# LED="/sys/class/leds/tp-link:green:qss/brightness"
+LED="/tmp/status.txt"
+URL="http://ftp.br.debian.org/"
+update_led="1s"
 # Iniciando o loop
 while [ true ]; do 
 wget -q -O tested --spider "$URL"
