@@ -1,4 +1,4 @@
-name: OpenWRT Tp Link WR941NDv3
+name: OpenWRT - X86_64 Generic
 on:
   push:
     branches:
