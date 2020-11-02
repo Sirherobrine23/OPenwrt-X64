@@ -1,8 +1,8 @@
 #!/bin/bash
 # Modify default IP
-sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.3.1/g' package/base-files/files/bin/config_generate
 #Hostaname
-sed -i 's/OpenWrt/r1/g' package/base-files/files/bin/config_generate
+sed -i 's/OpenWrt/eb1/g' package/base-files/files/bin/config_generate
 #NTP Server Brazil
 sed -i 's/0.openwrt.pool.ntp.org/a.st1.ntp.br/g' package/base-files/files/bin/config_generate
 sed -i 's/1.openwrt.pool.ntp.org/b.st1.ntp.br/g' package/base-files/files/bin/config_generate

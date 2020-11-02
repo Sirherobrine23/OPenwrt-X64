@@ -2,8 +2,8 @@
 
 Login:
 
-- [x]  Hostname:  `r1`
-- [x] ip padrão: `192.168.2.1`
+- [x]  Hostname:  `eb1` (ethernet bonding 1)
+- [x] ip padrão: `192.168.3.1`
 
 Servidores NTPbr:
 
