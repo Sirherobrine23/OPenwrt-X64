@@ -26,7 +26,8 @@ jobs:
 
     - name: Copilando e Organizando
       run: |
-        bash /home/copiler/start.sh
+        # bash /home/copiler/start.sh
+        start_new
 
     - name: Organizando os arquivos
       id: organize

@@ -16,7 +16,7 @@ env:
   UPLOAD_RELEASE: true
 
 jobs:
-  x64:
+  x86:
     runs-on: ubuntu-latest
     container: sirherobrine23/openwrtbuild-ci:latest
     if: github.event.repository.owner.id == github.event.sender.id
@@ -26,7 +26,8 @@ jobs:
 
     - name: Copilando e Organizando
       run: |
-        bash /home/copiler/start.sh
+        # bash /home/copiler/start.sh
+        start_new
 
     - name: Organizando os arquivos
       id: organize
