@@ -33,7 +33,7 @@ jobs:
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd /home/copiler/openwrt/bin/targets/*/*
+        cd /home/copiler/openwrt/bin/targets/*/* && ls
         echo "::set-env name=FIRMWARE::$PWD"
 
     - name: Gerando Tag
