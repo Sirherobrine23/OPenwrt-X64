@@ -26,15 +26,16 @@ jobs:
 
     - name: Copilando e Organizando
       run: |
-        # bash /home/copiler/start.sh
         start_new
 
-    - name: Organizando os arquivos
+
+    - name: Definindo Alguns arquivos
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd /home/copiler/openwrt/bin/targets/*/* && ls
-        echo "::set-env name=FIRMWARE::$PWD"
+        cd openwrt/bin/targets/*/*
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "::set-output name=status::success"
 
     - name: Gerando Tag
       id: tag
@@ -43,14 +44,23 @@ jobs:
         echo "::set-env name=FILE_DATE::_$(date +"%Y%m%d%H%M")"
         echo ::set-env name=RELEASE_NAME::"$(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")-OpenWrt_WR941NDv3 Copliler 3"
         echo ::set-env name=RELEASE_TAG::"$(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")"
-        echo "OpenWRT build - branch: $BRANCH ,Generic Device X64, Date build: $(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")" >> release.txt
+        echo "OpenWRT build - branch: $BRANCH ,Generic Device X86, Date build: $(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")" >> release.txt
     
-    - name: Upload do Firmware para o Release
+    - name: Upload firmware to release
       uses: softprops/action-gh-release@v1
+      if: steps.tag.outputs.status == 'success' && !cancelled()
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: ${{ env.FILE_DATE }}
-        files: ${{ env.FIRMWARE }}/*
-        tag_name: ${{ env.RELEASE_TAG }}
+        tag_name: ${{ steps.tag.outputs.release_tag }}
         body_path: release.txt
+        files: ${{ env.FIRMWARE }}/*
+
+    - name: Remove old Releases
+      uses: dev-drprasad/delete-older-releases@v0.1.0
+      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+      with:
+        keep_latest: 4
+        delete_tags: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
