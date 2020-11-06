@@ -27,7 +27,10 @@ jobs:
     - name: Copilando e Organizando
       run: |
         start_new
-
+        echo "::set-output name=status::success"
+        grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
+        [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
+        echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV
 
     - name: Definindo Alguns arquivos
       id: organize
@@ -40,11 +43,15 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true'
       run: |
-        echo "::set-env name=FILE_DATE::_$(date +"%Y%m%d%H%M")"
         echo ::set-env name=RELEASE_NAME::"$(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")-OpenWrt_WR941NDv3 Copliler 3"
         echo ::set-env name=RELEASE_TAG::"$(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")"
         echo "OpenWRT build - branch: $BRANCH ,Generic Device X86, Date build: $(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")" >> release.txt
-    
+
+    - name: Upload bin directory
+      uses: actions/upload-artifact@main
+      with:
+        name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
+        path: openwrt/bin
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v1
       env:
