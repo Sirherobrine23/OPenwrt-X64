@@ -43,21 +43,21 @@ jobs:
       id: tag
       if: env.UPLOAD_RELEASE == 'true'
       run: |
-        echo ::set-env name=RELEASE_NAME::"$(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")-OpenWrt_WR941NDv3 Copliler 3"
-        echo ::set-env name=RELEASE_TAG::"$(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")"
+        echo RELEASE_NAME="$(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")-OpenWrt_WR941NDv3 Copliler 3" >> $GITHUB_ENV
+        echo RELEASE_TAG="$(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")" >> $GITHUB_ENV
         echo "OpenWRT build - branch: $BRANCH ,Generic Device X86, Date build: $(TZ=UTC+3 date +"%d/%m/%Y-%H-%M-%S")" >> release.txt
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
       with:
         name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: openwrt/bin
+        path: ${{ env.FIRMWARE }}/*
     - name: Upload firmware to release
       uses: softprops/action-gh-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ steps.tag.outputs.release_tag }}
+        tag_name: ${{ env.RELEASE_TAG }}
         body_path: release.txt
         files: ${{ env.FIRMWARE }}/*
 
