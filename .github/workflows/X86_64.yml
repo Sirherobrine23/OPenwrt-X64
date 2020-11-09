@@ -17,7 +17,7 @@ env:
 
 jobs:
   x64:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container: sirherobrine23/openwrtbuild-ci:latest
     if: github.event.repository.owner.id == github.event.sender.id
     steps:
