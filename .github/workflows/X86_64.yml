@@ -9,7 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Build
     steps:
-    - uses: Sirherobrine23/Actions-Build-Openwrt@main
+    - name: Checkout
+      uses: actions/checkout@main
+    - name: Copiler
+      uses: Sirherobrine23/Actions-Build-Openwrt@main
       with:
         CONFIG: 'x64.config'
         P1: 'diy-part1.sh'
