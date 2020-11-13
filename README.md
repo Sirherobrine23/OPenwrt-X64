@@ -1,5 +1,7 @@
 # Configurações Padrões desse Firmeware
 
+![OpenWRT Github CI](https://github.com/Sirherobrine23/OPenwrt-X64/workflows/OpenWRT%20Github%20CI/badge.svg?branch=Openwrt18)
+
 Login:
 
 - [x]  Hostname:  `r1`
