@@ -10,7 +10,7 @@ jobs:
       uses: actions/checkout@main
       
     - name: Copiler
-      uses: Sirherobrine23/Actions-Build-Openwrt@javascript
+      uses: Sirherobrine23/Actions-Build-Openwrt@main
       with:
         CONFIG: 'x64.config'
 
