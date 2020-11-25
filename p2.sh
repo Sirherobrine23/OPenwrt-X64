@@ -19,4 +19,4 @@ sed -i 's/set wireless.default_radio${devidx}.ssid=OpenWrt/set wireless.default_
 # echo 'system-autoupdate' >> package/base-files/files/etc/rc.local
 # echo 'exit 0' >> package/base-files/files/etc/rc.local
 
-# cp -rfv ../ package/base-files/files/etc/banner
+cp -rfv ../banner package/base-files/files/etc/banner
