@@ -14,6 +14,8 @@ jobs:
       with:
         CONFIG: 'x64.config'
         BRANCH: "master"
+        P1: 'p1.sh'
+        P2: 'p2.sh'
 
     - name: Upload To Releases
       uses: softprops/action-gh-release@v1
