@@ -4,8 +4,8 @@
 
 Login:
 
-- [x]  Hostname:  `r1`
-- [x] ip padrão: `192.168.2.1`
+- [x]  Hostname:  `c1`
+- [x] ip padrão: `192.168.1.1`
 
 Servidores NTPbr:
 
