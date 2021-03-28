@@ -1,19 +1,40 @@
 name: OpenWRT Github CI
-on: [push]
+on:
+  push:
+  watch:
+    types: started
+  schedule:
+    - cron: 0 0 * * */3
 
 jobs:
-  build:
+  deleteOldReleases:
     runs-on: ubuntu-latest
-    name: Build
+    name: Delete old releases
     steps:
     - name: Checkout
       uses: actions/checkout@main
-      
+
+    - name: Delete Old Releases
+      uses: dev-drprasad/delete-older-releases@v0.1.0
+      with:
+        delete_tags: true
+        keep_latest: 0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  X64:
+    runs-on: ubuntu-latest
+    name: Arch x64
+    needs: [deleteOldReleases]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
     - name: Copiler
       uses: Sirherobrine23/Actions-Build-Openwrt@main
       with:
         CONFIG: 'x64.config'
-        BRANCH: "master"
+        BRANCH: 'master'
         P1: 'p1.sh'
         P2: 'p2.sh'
 
@@ -24,15 +45,33 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         name: Build to ${{ env.DEVICE_NAME }}, Run ID ${{ github.run_id }}
-        tag_name: ${{ github.run_id }}
+        tag_name: ${{ github.run_id }}-x64
         body_path: ${{ env.BODY_PATH }}
         files: ${{ env.FIRMWARE_PATH }}/*
 
-    - name: Delete Old Releases
-      uses: dev-drprasad/delete-older-releases@v0.1.0
-      if: env.UPLOADTORELEASE == 'true'
+  X64Old:
+    runs-on: ubuntu-latest
+    name: Arch x64 Old
+    needs: [deleteOldReleases]
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Copiler
+      uses: Sirherobrine23/Actions-Build-Openwrt@main
       with:
-        keep_latest: 4
-        delete_tags: true
+        CONFIG: 'OLDx64.config'
+        BRANCH: 'master'
+        P1: 'p1.sh'
+        P2: 'p2.sh'
+
+    - name: Upload To Releases
+      uses: softprops/action-gh-release@v1
+      if: env.UPLOADTORELEASE == 'true'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        name: Build to ${{ env.DEVICE_NAME }}, Run ID ${{ github.run_id }}
+        tag_name: ${{ github.run_id }}-x64
+        body_path: ${{ env.BODY_PATH }}
+        files: ${{ env.FIRMWARE_PATH }}/*
