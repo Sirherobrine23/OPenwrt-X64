@@ -1,10 +1,10 @@
-name: OpenWRT Github CI
+name: OpenWrt X64
 on:
   push:
   watch:
     types: started
   schedule:
-    - cron: 0 0 * * */3
+    - cron: 0 * * */2 *
 
 jobs:
   deleteOldReleases:
@@ -34,33 +34,6 @@ jobs:
       uses: Sirherobrine23/Actions-Build-Openwrt@main
       with:
         CONFIG: 'x64.config'
-        BRANCH: 'master'
-        P1: 'p1.sh'
-        P2: 'p2.sh'
-
-    - name: Upload To Releases
-      uses: softprops/action-gh-release@v1
-      if: env.UPLOADTORELEASE == 'true'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        name: Build to ${{ env.DEVICE_NAME }}, Run ID ${{ github.run_id }}
-        tag_name: ${{ github.run_id }}-x64
-        body_path: ${{ env.BODY_PATH }}
-        files: ${{ env.FIRMWARE_PATH }}/*
-
-  X64Old:
-    runs-on: ubuntu-latest
-    name: Arch x64 Old
-    needs: [deleteOldReleases]
-    steps:
-    - name: Checkout
-      uses: actions/checkout@main
-
-    - name: Copiler
-      uses: Sirherobrine23/Actions-Build-Openwrt@main
-      with:
-        CONFIG: 'OLDx64.config'
         BRANCH: 'master'
         P1: 'p1.sh'
         P2: 'p2.sh'
