@@ -15,10 +15,13 @@ jobs:
       uses: actions/checkout@main
 
     - name: Delete Old Releases
-      uses: dev-drprasad/delete-older-releases@v0.1.0
+      uses: Sirherobrine23/delete-older-releases@master
       with:
         delete_tags: true
         keep_latest: 0
+        pattern_regex: true
+        delete_tag_pattern: |
+           .*-x64
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -34,7 +37,7 @@ jobs:
       uses: Sirherobrine23/Actions-Build-Openwrt@main
       with:
         CONFIG: 'x64.config'
-        BRANCH: 'master'
+        BRANCH: 'openwrt-19.07'
         P2: 'p2.sh'
 
     - name: Upload To Releases
